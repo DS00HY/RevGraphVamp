@@ -87,16 +87,12 @@ def get_nbrs(all_coords, pair_list, num_atoms=42, num_neighbors=args.num_neighbo
         all_inds = np.array(all_inds)
     return all_dists, all_inds
 
-sim_names = ("red", "ox")
+sim_names = ("red", )
 top, trajs = {}, {}
-trajs = {k: sorted(glob("D:/code/ab42-kinetic-ensemble-master/trajectories/trajectories/{0}/r?/traj*.xtc".format(k))) for k in sim_names}
-top = {k: "D:/code/ab42-kinetic-ensemble-master/trajectories/trajectories/{0}/topol.gro".format(k) for k in sim_names}
+trajs = {k: sorted(glob("../trajectories/{0}/r?/traj*.xtc".format(k))) for k in sim_names}
+top = {k: "../trajectories/{0}/topol.gro".format(k) for k in sim_names}
 KBT = 2.311420  # 278 K
 nres = 42
-traj_rounds = {
-    "red": [1024, 1023, 1024, 1024, 1024],
-    "ox": [1024, 1024, 1023],
-}
 
 residue_name = {}
 pair_list = {}
@@ -178,9 +174,9 @@ for k in sim_names:
     nframes[k] = inpcon[k].trajectory_lengths().sum()
     data_info = {'length': lengths[k], '_nframes': nframes[k]}
     print(data_info)
-    np.save(filename+"datainfo.npy", data_info)
-    np.save(filename+'dist.npy', np.vstack(dists))
-    np.save(filename+'inds.npy', np.vstack(inds))
+    np.save(filename+"datainfo_min.npy", data_info)
+    np.save(filename+'dist_min.npy', np.vstack(dists))
+    np.save(filename+'inds_min.npy', np.vstack(inds))
     # for i in range(len(dists)):
     #     np.savez(k+'dists_rap_'+str(args.num_neighbors)+'nbrs_'+ str(ns)+'ns_'+str(i)+'.npz', dists[i])
     #     np.savez(k+'inds_rap'+str(args.num_neighbors)+'nbrs_'+ str(ns)+'ns_'+str(i)+'.npz', inds[i])
